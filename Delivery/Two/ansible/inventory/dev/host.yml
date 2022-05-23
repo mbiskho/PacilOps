@@ -2,7 +2,9 @@
 all:
   children:
     db-server:
-      hosts: 35.184.159.53
+      hosts: 
+        localhost
+        35.184.159.53
       vars:
         mysql_root_pass: rootwordpress
         mysql_db: wordpress
