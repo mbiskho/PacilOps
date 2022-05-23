@@ -1,0 +1,69 @@
+---
+- hosts: db-server
+  gather_facts: no
+  remote_user: root
+  become: yes
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt: name=nginx
+        state=latest
+      become: yes
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+      become: yes
+    - name: copy the nginx config file
+      copy:
+        src: /home/ubuntu/ansible-deploy/load-balancer.conf
+        dest: /etc/nginx/sites-enabled/load-balancer.conf
+      become: yes
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+    - name: Install docker and dependencies
+      apt:
+        name: docker-ce, docker-ce-cli, containerd.io
+        state: present
+    - name: Start docker
+      service:
+        name: docker
+        state: started
+    - name: Install docker python module
+      pip:
+        name: docker
+    - name: Create MySQL container
+      docker_container:
+        name: maria-db
+        image: docker.io/bitnami/mariadb:10.3
+        state: started
+        recreate: yes
+        env: 
+          MARIADB_USER=bn_wordpress
+          MARIADB_DATABASE=bitnami_wordpress
+          ALLOW_EMPTY_PASSWORD=yes
+        ports:
+          - "3306:3306"
+        volumes:
+          - mariadb_data:/bitnami/mariadb
+    - name: Create Zabbix Agent Monitor Server
+      docker_container:
+        name: zabbix-agent-db-lb
+        image: zabbix/zabbix-agent:ubuntu-5.2-latest
+        state: started
+        recreate: yes
+        privileged: true
+        env: ZBX_HOSTNAME="Zabbix server"
+             ZBX_SERVER_HOST=34.136.196.143
+        pid_mode: host
+        network_mode: host
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - ./zbx_env/etc/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
+          - ./zbx_env/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
+          - ./zbx_env/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
+          - ./zbx_env/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+          - /:/rootfs
+          - /var/run:/var/run
