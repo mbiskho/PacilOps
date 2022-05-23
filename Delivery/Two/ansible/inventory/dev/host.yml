@@ -2,11 +2,11 @@
 all:
   children:
     db-server:
-    hosts: 35.184.159.53
-    vars:
-      mysql_root_pass: rootwordpress
-      mysql_db: wordpress
-      mysql_user: wordpress
-      mysql_pass: wordpress
+      hosts: 35.184.159.53
+      vars:
+        mysql_root_pass: rootwordpress
+        mysql_db: wordpress
+        mysql_user: wordpress
+        mysql_pass: wordpress
     zabbix-server:
       hosts: 34.136.196.143
