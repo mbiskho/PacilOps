@@ -10,5 +10,5 @@ all:
         mysql_db: wordpress
         mysql_user: wordpress
         mysql_pass: wordpress
-    zabbix-server:
-      hosts: 34.136.196.143
+    # zabbix-server:
+    #   hosts: 34.136.196.143
