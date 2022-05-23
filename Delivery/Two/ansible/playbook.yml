@@ -41,8 +41,8 @@
         state: started
         recreate: yes
         env: 
-          MARIADB_USER=bn_wordpress
-          MARIADB_DATABASE=bitnami_wordpress
+          MARIADB_USER=user
+          MARIADB_DATABASE=db
           ALLOW_EMPTY_PASSWORD=yes
         ports:
           - "3306:3306"
