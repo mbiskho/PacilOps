@@ -1,0 +1,18 @@
+---
+all:
+  children:
+    profile-1:
+      hosts: 
+        34.133.160.195:
+    profile-2:
+      hosts: 
+        35.223.91.33:
+    profile-3:
+      hosts: 
+        34.135.89.64:
+    video-app:
+      hosts: 
+        34.136.196.143:
+    zabbix-monitor:
+      hosts: 
+        35.226.1.81:

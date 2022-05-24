@@ -1,15 +1,31 @@
 ---
-- hosts: db-server
+- hosts: profile-1
   gather_facts: no
   become_user: root
+  become: yes
   tasks:
-    - name: ensure nginx is at the latest version
-      apt: name=nginx
-        state=latest
-      become: yes
-    - name: start nginx
+    - name: Clone a github repository
+      git:
+        repo: https://github.com/mbiskho/PacilOps.git
+        dest: /home/bisma/repos/
+        clone: yes
+        update: yes
+    - name: "apt-get update"
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600    
+    - name: "install nginx"
+      apt:
+        name: ['nginx']
+        state: latest
+    # - name: start nginx
+    #   service:
+    #       name: nginx
+    #       state: started
+
+  handlers:
+    - name: restart nginx
       service:
         name: nginx
-        state: started
-      become: yes
+        state: restarted
 
