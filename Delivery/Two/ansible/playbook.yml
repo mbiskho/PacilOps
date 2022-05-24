@@ -18,6 +18,18 @@
       apt:
         name: ['nginx']
         state: latest
+    - name: delete default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+    - name: Copy new nginx configuration
+      become: true
+      copy: 
+        src: /home/bisma/repos/Delivery/Two/nginx/profile-1/default
+        dest: /etc/nginx/sites-available/
+        mode: +rwx 
+      notify: restart nginx
     # - name: start nginx
     #   service:
     #       name: nginx
