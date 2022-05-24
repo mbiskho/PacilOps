@@ -1,8 +1,7 @@
 ---
 - hosts: db-server
   gather_facts: no
-  remote_user: root
-  become: yes
+  become_user: root
   tasks:
     - name: ensure nginx is at the latest version
       apt: name=nginx
