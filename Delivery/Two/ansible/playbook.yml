@@ -12,5 +12,4 @@
         name: nginx
         state: started
       become: yes
-- hosts : web-1
 
