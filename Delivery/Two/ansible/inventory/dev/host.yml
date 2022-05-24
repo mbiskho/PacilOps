@@ -3,7 +3,7 @@ all:
   children:
     db-server:
       hosts: 
-        35.226.1.81:
+        34.134.11.200:
       vars:
         mysql_root_pass: pacilops
         mysql_db: db
