@@ -1,7 +1,11 @@
 import http from 'k6/http';
 
 export default function () {
-  for(let i = 0; i < 10; i ++){
-    http.get('https://34.130.0.122/');
+  /**
+  * Make Http connection up to 200 User
+  */
+  for(let i = 0; i < 200; i ++){
+    http.get('https://34.77.136.114/');
   }
+  
 }
